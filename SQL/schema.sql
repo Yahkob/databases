@@ -15,9 +15,9 @@ USE chat;
 
 DROP TABLE IF EXISTS `Rooms`;
 
-CREATE TABLE `Rooms` (
- `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `roomname` VARCHAR(20) DEFAULT NULL,
+CREATE TABLE `rooms` (
+ `id` INTEGER AUTO_INCREMENT NOT NULL,
+  `roomname` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -25,14 +25,17 @@ CREATE TABLE `Rooms` (
 -- Table 'messages'
 --
 -- ---
+/* SELECT <COLUMNS> FROM <TABLES> WHERE <CONDTION>   */
 
+/* INSERT INTO <TABLE> (<COLUMNS>) VALUES(values)   rooms(roomname) VALUES ('lobby') */
 DROP TABLE IF EXISTS `messages`;
 
 CREATE TABLE `messages` (
-  `message_id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `id_Rooms` INTEGER NULL DEFAULT NULL,
-  `user_id_users` INTEGER NULL DEFAULT NULL,
-  `createdAt` INTEGER NULL DEFAULT NULL,
+  `message_id` INTEGER AUTO_INCREMENT NOT NULL,
+  `id_rooms` INTEGER NOT NULL,
+  `message` VARCHAR(140) NOT NULL,
+  `user_id_users` INTEGER NOT NULL,
+  `created_at` DATE NOT NULL,
   PRIMARY KEY (`message_id`)
 );
 
@@ -44,8 +47,8 @@ CREATE TABLE `messages` (
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
-  `user_id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `username` VARCHAR(15) DEFAULT NULL,
+  `user_id` INTEGER AUTO_INCREMENT NOT NULL,
+  `username` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`user_id`)
 );
 
@@ -53,7 +56,7 @@ CREATE TABLE `users` (
 -- Foreign Keys
 -- ---
 
-ALTER TABLE `messages` ADD FOREIGN KEY (id_Rooms) REFERENCES `Rooms` (`id`);
+ALTER TABLE `messages` ADD FOREIGN KEY (id_rooms) REFERENCES `rooms` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (user_id_users) REFERENCES `users` (`user_id`);
 
 -- ---
