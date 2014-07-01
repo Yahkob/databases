@@ -1,0 +1,39 @@
+var mysql = require('mysql');
+var db = require('./db.js');
+
+module.exports.pullMessages = function(callback) {
+  db.query('SELECT * from messages JOIN users on messages.user_id_users = users.user_id', function(err, rows){
+    if (err) {
+      throw err;
+    }
+    callback(rows);
+  });
+};
+
+
+var postMessages = function(data){
+  db.query("SELECT user_id FROM users WHERE username LIKE '"+user+"'", function(err,rows){
+    if(err) {
+      throw err;
+    }
+    if(!rows[0]) {
+      console.log('user does not exist inserting');
+      db.query("INSERT into users (username) values('"+ user+"')");
+    }
+    db.query("SELECT id FROM rooms WHERE roomname LIKE '"+room+"'", function(err,rows){
+      if(err) {
+        throw err;
+      }
+      if(!rows[0]) {
+        console.log('room does not exist');
+        db.query("INSERT into rooms (roomname) values('"+room+"')");
+      }
+
+    });
+  });
+};
+
+
+module.exports.postMessages = function(roomId,userId,message){
+  db.query("INSERT into messages (id_rooms, message, user_id_users) values('"+ roomId, userId, message+"')");
+};
